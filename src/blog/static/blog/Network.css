@@ -1,0 +1,45 @@
+
+
+.GridContent{
+    background-color: white;
+    border: 1px solid lightgrey;
+    display: grid;
+    grid-template-columns:  auto auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+    '. ProfileImg UserName UserName .'
+    '. ProfileImg Button1 Button2 .';
+}
+
+.btn_Width{
+    width: 120px;
+}
+
+.img_size{
+    height: 90px;
+    width: 90px;
+}
+
+.ProfileImg{
+    grid-area: ProfileImg;
+    padding: 10px 10px 0px 0px;
+}
+
+
+.UserName{
+    padding-top: 10px;
+    grid-area: UserName;
+}
+
+.Button1{
+    grid-area: Button1;
+    padding: 10px 10px 10px 0px;
+
+    
+}
+
+.Button2{
+    grid-area: Button2;
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 0px;
+}

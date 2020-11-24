@@ -1,0 +1,44 @@
+{%extends "blog/base.html"%}
+
+{%load crispy_forms_tags%}
+
+{%block content%}
+
+<div class="content_section">
+
+{% for obj in qs %}
+	<div class="GridContent">
+
+		<div class="ProfileImg ">
+			<img class ="rounded-circle img_size" src="{{obj.image.url}}">
+		</div>
+		
+		<div class="UserName">
+			<div class = ""><h4>{{ obj.user}} </h4></div>
+		</div>
+
+		<div class="Button1">
+			<form action="{% url 'accept' %}" method="POST">
+
+				{% csrf_token %}
+				<input type="hidden" name="profile_pk" value="{{obj.pk}}">				
+				<button type="submit" class="btn btn-primary"> Confirm </button>
+			</form>
+			
+		</div>
+
+		<div class="Button2">
+
+			<form action="{% url 'reject' %}" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="profile_pk" value="{{obj.pk}}">
+				<button type="submit" class="btn btn-primary"> Reject </button>		
+			</form>
+		
+		</div>
+
+	</div>
+{% endfor %}
+</div>
+
+{%endblock content%}

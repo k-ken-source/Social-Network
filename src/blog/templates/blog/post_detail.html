@@ -1,0 +1,76 @@
+{% extends "blog/base.html" %}
+{% block content %}
+  <article class="media content-section">
+            <div class="Container">
+            <section class = "grid">
+
+                <div class="Header">
+
+                  <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>    
+                    </div>
+                  </div>
+                </div>
+
+                <div class="Content">
+                    
+                    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                    <img class="thumbnail_img" src="{{ post.thumbnail.url }}">
+                    <p class="article-content">{{ post.content|safe }}</p>
+
+                </div>
+              </section>
+            </div>
+          </article>
+
+
+          {% if object.author == user %}
+            <div>
+              <a class= "btn btn-secoundary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+
+            <a class= "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+            </div>
+            <hr>
+            <h5> Comments </h5>
+            <div class="Comment-section">
+              {% for com in comment %}
+                
+                <div class="comment">
+                  <div class="comment-header d-flex justify-content-between">
+                    <div class="user d-flex align-items-center">
+                      <div class="image"><img src="{{com.user.image.url}}" alt="..." class="img-fluid rounded-circle CommentImage"></div>
+                      
+                      <div class="title">
+
+                        <strong>{{com.user.user.username}}</strong>
+                       
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="comment-body">
+                    {{com.content}}
+                  </div>
+                </div>
+
+              {% endfor %}
+          
+
+            <form method = 'POST' action="" class="commenting-form">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    {{form}}
+                  </div>
+                  <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                  </div>
+                </div>
+          </form>
+        </div>
+          {%endif %}
+
+{% endblock content %}

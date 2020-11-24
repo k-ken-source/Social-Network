@@ -1,0 +1,78 @@
+.Container{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+    ' Header '
+    ' Content '
+    ' Footer ';
+
+}
+
+.Header{
+    grid-area:Header;
+    height: auto;
+    padding-top: 10px;
+    padding-left:20px;
+    padding-right: 20px;
+
+}
+
+.thumbnail_img{
+    width: 100%;
+    height: calc(100vh - 350px);
+
+}
+
+.Content{
+    grid-area:Content;
+    height: auto;
+    padding-left:20px;
+    padding-right: 20px;
+
+}
+
+.Content>p{
+    padding: 5px;
+    background-color: #f7f7f7;
+}
+.Footer{
+    grid-area: Footer;
+
+    padding-left:20px;
+    padding-right: 20px;
+    margin-bottom: 10px
+}
+
+.ui_grid_Fotter{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    ' Left Right ';
+
+}
+
+.Left{
+    grid-area: Left;
+}
+
+.Right{
+    grid-area: Right;
+}
+
+.LikeBtn{
+    float: left;
+    margin-left: 15px;
+    padding-right: 5px;
+}
+.Like_Num{
+    padding: 5px;
+}

@@ -1,0 +1,65 @@
+{%extends "blog/base.html"%}
+
+{%load crispy_forms_tags%}
+
+{%block content%}
+
+<div class="content_section">
+
+	{% for obj in qs %}
+	<div class="GridContent">
+
+		<div class="ProfileImg">
+			<div class="imageprofile">
+				<img class ="rounded-circle img_size" src="{{obj.image.url}}">
+			</div>
+			
+			
+		</div>
+		
+		<div class="UserName">
+			<div class = ""><h4>{{ obj.user}} </h4></div>
+		</div>
+
+		<div class="Button1">
+			<a class= "btn btn-primary btn_Width" href="{% url 'detail_profile' obj.user.id %}">View Profile</a>
+		</div>
+
+		<div class="Button2">
+			<form action="{% url 'send-invite' %}" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="profile_pk" value="{{obj.pk}}">
+				{% if obj.user not in Sender and obj.user not in Rec %}
+					
+					<button type="submit" class="btn btn-primary btn_Width"> Invite </button>
+
+				{% endif %}
+			</form>
+
+			<form action="{% url 'withdraw' %}" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="profile_pk" value="{{obj.pk}}">
+				{% if obj.user in Sender and request.user not in obj.Friends.all %}
+					
+					<button type="submit" class="btn btn-secondary btn_Width">Withdraw
+					</button>
+
+				{% endif %} 
+			</form>
+
+			<form action="{% url 'remove-friend' %}" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="profile_pk" value="{{obj.pk}}">
+				
+				{% if request.user in obj.Friends.all %}
+					
+					<button type="submit" class="btn btn-primary btn_Width"> Remove </button>
+
+				{% endif %}
+			</form>
+		</div>
+
+	</div>
+	{% endfor %}
+</div>
+{%endblock content%}

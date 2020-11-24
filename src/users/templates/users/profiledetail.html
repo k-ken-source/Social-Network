@@ -1,0 +1,139 @@
+{%extends "blog/base.html"%}
+
+{%load crispy_forms_tags%}
+
+{%block content%}
+
+
+	<div class="Grid-profile">
+		
+		<div class="Area1">
+
+			<img class = "rounded-circle profilepic" src="{{object.image.url}}">
+				<div class="TextBox1">
+					<b>{{object.user.username}} </b>
+
+					{% if request.user == object.user %}
+ 				
+ 					<a class= "btn btn-primary btn-sm" href="{% url 'profile-edit'%}">Edit Profile</a>
+
+ 					{% else %}
+
+					<div class="Button2">
+						<form action="{% url 'send-invite' %}" method="POST">
+							{% csrf_token %}
+							<input type="hidden" name="profile_pk" value="{{object.pk}}">
+							{% if object.user not in Sender and object.user not in Rec %}
+								
+								<button type="submit" class="btn btn-primary btn-sm"> Invite </button>
+
+							{% endif %}
+						</form>
+
+						<form action="{% url 'withdraw' %}" method="POST">
+							{% csrf_token %}
+							<input type="hidden" name="profile_pk" value="{{object.pk}}">
+							{% if object.user in Sender and request.user not in object.Friends.all %}
+								
+								<button type="submit" class="btn btn-secondary btn_Width">Withdraw
+								</button>
+
+							{% endif %}
+						</form>
+
+
+						<form action="{% url 'remove-friend' %}" method="POST">
+							{% csrf_token %}
+							<input type="hidden" name="profile_pk" value="{{object.pk}}">
+							
+							{% if request.user in object.Friends.all %}
+								
+								<button type="submit" class="btn btn-primary btn_Width"> Remove </button>
+
+							{% endif %}
+						</form>
+					</div>
+
+
+ 					{% endif %}
+ 					</b>	
+
+				</div>
+
+				<div class="TextBox1">
+				
+					<h6>{{object.user.email}}</h6>	
+					
+					<h6> Friends <b>( {{object.get_all_friends_count}} ) </b></h6>
+
+					<h6> Posts <b>( {{count}} ) </b></h6>
+					
+				</div>	
+
+		</div>
+
+		<div class="Area2">
+			<div class="ContainerBox">
+				<h6>Email Address</h6>
+				<div class="TextBox">
+					<h6>{{object.user.email}}</h6>
+				</div>
+
+				<h6>First Name</h6>
+				<div class="TextBox">
+					<h6>{{object.Fname}}</h6>
+				</div>
+
+				<h6>Last Name</h6>
+				<div class="TextBox">
+					<h6>{{object.Lname}}</h6>
+				</div>
+
+				<h6> Bio </h6>
+				<div class="TextBox">
+					<h6>{{object.bio}}</h6>
+				</div>
+			</div>
+				
+		</div>
+
+		<div class="Area3">
+			<div class="seprator">
+				<div class="TextBox1">
+					<h3> Posts By {{object.user.username}} <b>( {{count}} ) </b> </h3>
+				</div>
+			</div>
+		    {% for post in posts %}
+
+		        <div class="Container">
+		            <section class = "grid">
+
+		                <div class="Header">
+
+		                  <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+		                  <div class="media-body">
+		                    <div class="article-metadata">
+		                      <a class="mr-2" href="{% url 'detail_profile' post.author.id %}">{{ post.author }}</a>
+		                      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>    
+		                    </div>
+		                  </div>
+		                </div>
+
+		                <div class="Content">
+		                    
+		                    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+		                    <img class="thumbnail_img" src="{{ post.thumbnail.url }}">
+		                    <p class="article-content">{{ post.overview }}</p>
+
+		                </div>
+		                <div class = 'Footer'>Footer</div>
+		            </section>
+		        </div>
+
+		    {% endfor %}
+		</div>
+		
+	</div>
+
+
+{%endblock content%}

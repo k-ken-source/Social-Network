@@ -1,0 +1,30 @@
+.CommentImage{
+    height: 50px;
+    width: 50px;
+    padding: 5px;
+}
+
+.comment{
+	padding: 10px;
+	
+
+}
+
+.Comment-section{
+	background-color: white;
+	border: 1px solid lightgrey;
+	margin-top: 10px;
+	padding:10px;
+
+}
+
+.Username{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.comment-body{
+	background-color: #f7f7f7;
+	padding: 10px;
+	margin-left: 55px;
+}
