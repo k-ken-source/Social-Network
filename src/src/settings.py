@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'Forum.apps.ForumConfig',
+    'TaskManager.apps.TaskmanagerConfig',
 
 
     'django.contrib.admin',

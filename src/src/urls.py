@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),
+    
     path('register/',user_views.register,name='register'),
     path('profile/edit',user_views.profile,name='profile-edit'),
     path('login/',auth_views.LoginView.as_view(template_name='users/login.html'),name='login'),
@@ -25,7 +25,9 @@ urlpatterns = [
     path('invites/withdraw',user_views.withdraw,name='withdraw'),
     #tinymce path
 
-    path('tinymce/',include('tinymce.urls'))
+    path('', include('blog.urls')),
+    path('tinymce/',include('tinymce.urls')),
+    path('forum/',include('Forum.urls'))
 
 
 ]

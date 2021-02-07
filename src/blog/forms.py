@@ -1,5 +1,5 @@
 from django import forms
-from .models import post, Comment
+from .models import post, Comment, blog
 from tinymce.widgets import TinyMCE
 
 
@@ -15,6 +15,15 @@ class PostForm(forms.ModelForm):
 	class Meta:
 		model = post
 		fields= ['title','overview','thumbnail','content']
+
+class BlogForm(forms.ModelForm):
+	content = forms.CharField(widget=TinyMCEWidget(
+	 		attrs={'required': False, 'cols': 30, 'rows': 10}
+	 	))
+
+	class Meta:
+		model = blog
+		fields= ['title','content']
 
 class CommentForm(forms.ModelForm):
 	content = forms.CharField(widget = forms.Textarea(attrs ={

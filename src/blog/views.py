@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .models import post, likes, Comment
+from .models import post, likes, Comment, blog 
 from users.models import Profile
 from django.views.generic import (
 ListView, 
@@ -11,9 +11,23 @@ UpdateView,
 DeleteView
 )
 
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, BlogForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+
+#List View for blog and articles 
+class BlogListView(ListView, LoginRequiredMixin):
+	model  = blog
+	template_name = 'blog/blog_template.html'
+	context_object_name = 'posts'
+	ordering = ['-date_posted']
+	paginate_by  = 5
+
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		profile = Profile.objects.get(user = self.request.user)
+		context['user_profile'] = profile		
+		return context
 
 
 class PostListView(LoginRequiredMixin,ListView):
@@ -21,7 +35,7 @@ class PostListView(LoginRequiredMixin,ListView):
 	template_name='blog/home.html'
 	context_object_name='posts'
 	ordering=['-date_posted']
-	paginate_by=5
+	#paginate_by=5
 
 	def get_context_data(self,**kwargs):
 		context = super().get_context_data(**kwargs)
@@ -41,7 +55,7 @@ class UserPostListView(LoginRequiredMixin,ListView):
 		return post.objects.filter(author=user).order_by('-date_posted')
 
 
-class DetailView(LoginRequiredMixin,DetailView):
+class PostDetailView(LoginRequiredMixin,DetailView):
 	model = post
 	form = CommentForm
 
@@ -65,8 +79,14 @@ class DetailView(LoginRequiredMixin,DetailView):
 			return redirect('post-detail', pk=post.pk)
 		self.object = self.get_object()
 		context = self.get_context_data(object=self.object)
-		return self.render_to_response(context)  
+		return self.render_to_response(context)
 
+class BlogDetailView(DetailView, LoginRequiredMixin):
+	model = blog
+	context_object_name = 'post'
+	template_name  = 'blog/BlogDetail.html'
+
+	
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model=post
 	form_class = PostForm
@@ -75,6 +95,19 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 	def form_valid(self,form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
+# Blog CreateView 
+class BlogCreateView(LoginRequiredMixin, CreateView):
+	model=blog
+	form_class = BlogForm
+
+	def get_success_url(self):
+		return reverse('blog-detail', kwargs={'pk': self.object.pk})
+
+	def form_valid(self,form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
+
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = post
@@ -90,6 +123,21 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 		if self.request.user == post.author:
 			return True 
 		return False
+
+#Blog Update View 
+class BlogUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = blog
+	fields = ['title','content']
+
+	def form_valid(self,form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
+
+	def test_func(self):
+		blog=self.get_object()
+		if self.request.user == blog.author:
+			return True 
+		return False
 		
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = post
@@ -100,8 +148,18 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 			return True
 		return False
 
+class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+	model = blog
+	success_url = '/forum'
+	def test_func(self):
+		post=self.get_object()
+		if self.request.user == post.author:
+			return True
+		return False
 
-login_required
+
+
+@login_required
 def likePost(request):
 	if request.user.is_authenticated:
 		if request.method == 'POST':

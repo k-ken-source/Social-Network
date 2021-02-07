@@ -1,0 +1,41 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+    <div class="HeadContainer">
+      
+        <a class="btn btn-primary" href="{% url 'blog-home'%}" role="button">Article</a>
+      
+        <a class="btn btn-primary" href="{% url 'blog'%}" role="button">Blog</a>
+  
+    </div>
+
+    {% for post in posts %}
+
+        <div class="Container">
+            <section class = "grid">
+
+                <div class="Header">
+
+                  <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2" href="{% url 'detail_profile' post.author.id %}">{{ post.author }}</a>
+                      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>    
+                    </div>
+                  </div>
+                </div>
+
+                <div class="Content">
+                    
+                    <h2><a class="article-title" href="{% url 'blog-detail' post.id %}">{{ post.title }}</a></h2>
+                  
+                    <p class="article-content">{{ post.content|safe|truncatechars:200}}</p>
+
+                </div>
+
+            </section>
+        </div>
+
+    {% endfor %}
+
+{% endblock content %}

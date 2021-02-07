@@ -36,6 +36,20 @@ class post(models.Model):
 		count = self.Liked.all().count()
 		return count
 
+class blog(models.Model):
+	title = models.CharField(max_length=200)
+	content = HTMLField()
+	date_posted = models.DateTimeField(default = timezone.now)
+	author = models.ForeignKey(User, on_delete = models.CASCADE)
+	#Liked = models.ManyToManyField(Profile,default = None)
+
+	def __str__(self):
+		return self.title
+
+	def get_absolute_url(self):
+		return reverse('blog-detail', kwargs={'pk':self.pk})
+
+
 class Comment(models.Model):
 	user = models.ForeignKey(Profile,on_delete=models.CASCADE)
 	post = models.ForeignKey(post, on_delete = models.CASCADE)
