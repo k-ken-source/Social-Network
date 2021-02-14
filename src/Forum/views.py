@@ -14,12 +14,12 @@ UpdateView,
 DeleteView
 )
 
-class ThreadListView(ListView, LoginRequiredMixin):
+class ThreadListView(LoginRequiredMixin,ListView):
 	model  = thread
 	ordering = ['-date_posted']
 	context_object_name = 'posts'
 
-class ThreadDetailView(DetailView, LoginRequiredMixin):
+class ThreadDetailView(LoginRequiredMixin,DetailView):
 	model = thread
 	form = RepliesForm
 	context_object_name = 'post'
@@ -46,7 +46,7 @@ class ThreadDetailView(DetailView, LoginRequiredMixin):
 		context = self.get_context_data(object=self.object)
 		return self.render_to_response(context)
 
-class ThreadCreateView(CreateView, LoginRequiredMixin):
+class ThreadCreateView(LoginRequiredMixin,CreateView):
 	model = thread
 	fields = ['title', 'content']
 
@@ -58,7 +58,7 @@ class ThreadCreateView(CreateView, LoginRequiredMixin):
 		form.instance.author = profile
 		return super().form_valid(form)
 
-class ThreadDeleteView(DeleteView, LoginRequiredMixin):
+class ThreadDeleteView(LoginRequiredMixin,DeleteView):
 	model = thread
 	success_url = '/forum'
 	def test_func(self):
@@ -66,7 +66,7 @@ class ThreadDeleteView(DeleteView, LoginRequiredMixin):
 		if self.request.user == thread.author.user:
 			return True
 		return False
-class ThreadUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+class ThreadUpdateView(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
 	model = thread
 	fields = ['title', 'content']
 

@@ -55,8 +55,8 @@
                         </i>
                     </a>
 
-                    <a class="nav-item nav-link" href="#">
-                        <i class='fas fa-tasks' style='font-size:30px'></i>
+                    <a class="nav-item nav-link" href="{% url 'task-home' %}">
+                        <i class='fas fa-tasks' style='font-size:30px'>.</i>
 
                     </a>
 
@@ -71,6 +71,7 @@
                           
                           <a class="dropdown-item" href="{% url 'blog-create' %}">Add Blog </a>
                           <a class="dropdown-item" href="{% url 'thread-create' %}">New Thread </a>
+                          <a class="dropdown-item" href="{% url 'task-create' %}">New Task </a>
                         </div>
                       </div>
 
@@ -143,6 +144,11 @@
                     <li class="list-group-item list-group-item-light"> 
                         <a href="{% url 'my-invites' %}">Your Invites</a>
                     </li>
+
+                    <li class="list-group-item list-group-item-light"> 
+                        <a href="{% url 'task-create' %}">New Task</a>
+                    </li>
+
     	          </ul>
     	        </p>
     	      </div>

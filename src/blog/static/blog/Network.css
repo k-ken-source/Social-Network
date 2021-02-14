@@ -43,3 +43,108 @@
     margin-bottom: 10px;
     padding: 10px 10px 10px 0px;
 }
+
+/** Task Manager **/
+.TaskGrid{
+    
+    display: grid;
+    grid-template-columns:  auto auto auto auto auto auto;
+    grid-template-rows: auto;
+    grid-column-gap: 2px;
+    grid-template-areas: 
+    '. Title Description Producer Prize PostedOn Deadline .'
+}
+
+.Title{
+    grid-area: Title;
+    background-color: white; 
+    text-align:center;  
+
+}
+
+.Description{
+    grid-area: Description;
+    background-color: white;   
+    text-align:center;
+}
+
+.Producer{
+    grid-area: Producer;
+    background-color: white;   
+    text-align:center;
+}
+
+.Prize{
+    grid-area: Prize;
+    background-color: white;   
+    text-align:center;
+}
+
+.PostedOn{
+    grid-area: PostedOn;
+    background-color: white;   
+    text-align:center;
+}
+
+.Deadline{
+    grid-area: Deadline;
+    background-color: white;   
+    text-align:center;
+}
+
+/** TABLE //////////////////////////////////////////////////// **/
+
+.table-box
+{
+    width: 100%;
+}
+
+.table-row{
+
+    display: table;
+    width: 100%;
+    
+    font-family: sans-serif;
+    background: white;
+    padding: 12px 0;
+    color: #555;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+}
+.table-head{
+    background: #8665f7;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 600;
+}
+.table-head .table-cell{
+    border-right: none;
+}
+.table-cell{
+    display: table-cell;
+    width: 20%;
+    text-align: center;
+    padding: 4px 0;
+    border-right: 1px solid #d6d4d4;
+    vertical-align: middle;
+}
+.first-cell{
+    text-align: left;
+    padding-left: 10px;
+}
+.last-cell{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: none;
+
+}
+a{
+    text-decoration: none;
+    color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+  .table-row {
+    font-size: 11px;
+  }
+}

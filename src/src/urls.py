@@ -27,7 +27,8 @@ urlpatterns = [
 
     path('', include('blog.urls')),
     path('tinymce/',include('tinymce.urls')),
-    path('forum/',include('Forum.urls'))
+    path('forum/',include('Forum.urls')),
+    path('taskmanager/',include('TaskManager.urls'))
 
 
 ]
